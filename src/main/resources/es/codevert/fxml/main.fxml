@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/csstry.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.codevert.MainViewController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="600.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="59.0" prefWidth="92.0" text="Button" textAlignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#changeText" prefHeight="60.0" prefWidth="108.0" text="Button" />
+         </children>
+      </HBox>
+      <Label fx:id="labelText" layoutY="147.0" prefHeight="38.0" prefWidth="83.0" />
+      <MenuBar layoutX="90.0" layoutY="173.0" prefHeight="55.0" prefWidth="187.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TabPane layoutX="317.0" layoutY="111.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Untitled Tab 1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutY="-7.0" prefHeight="182.0" prefWidth="200.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Untitled Tab 2">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <Pane prefHeight="176.0" prefWidth="200.0">
+                        <Button layoutY="6.0" mnemonicParsing="false" text="Button" styleClass="lala"/>
+                    </Pane>
+                </AnchorPane>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

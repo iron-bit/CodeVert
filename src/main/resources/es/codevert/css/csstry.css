@@ -1,0 +1,28 @@
+Button {
+    -fx-background-color: #d2e2de;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+Button:hover, .lala:hover{
+    -fx-background-color: red;
+}
+
+HBox {
+    -fx-background-color: #00ffbe;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.lala {
+    -fx-background-color: #49e24b;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+
+}
