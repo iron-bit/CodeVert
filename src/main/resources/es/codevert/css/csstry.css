@@ -1,28 +1,59 @@
-Button {
-    -fx-background-color: #d2e2de;
-    -fx-border-color: #FFFFFF;
+.appBackground {
+    -fx-background-color: #F3F3F3;
+}
+
+.paneDrag, .dragSquare {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+}
+
+.dragSquareContainer {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #306fc1;
+    -fx-background-radius: 10px;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
+}
+
+.pane00, .pane21 {
+    -fx-background-color: #5A5A5A;
+}
+
+.pane10, .pane31 {
+    -fx-background-color: #FFFFFF;
+}
+
+.pane01, .pane20 {
+    -fx-background-color: #F6B389;
+}
+
+.pane11, .pane30 {
+    -fx-background-color: #6E9EE9;
+}
+
+.pane00, .pane10, .pane01, .pane11, .pane20, .pane21, .pane30, .pane31 {
+    -fx-border-color: #000000;
+    -fx-border-width: 1px;
+}
+
+#rightGrid, #propertiesBox {
+    -fx-background-color: #FFFFFF;
     -fx-background-radius: 10px;
-}
-
-Button:hover, .lala:hover{
-    -fx-background-color: red;
-}
-
-HBox {
-    -fx-background-color: #00ffbe;
-    -fx-border-color: #FFFFFF;
-    -fx-border-width: 2;
+    -fx-border-color: #306fc1;
+    -fx-border-width: 2px;
     -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
 }
 
-.lala {
-    -fx-background-color: #49e24b;
-    -fx-border-color: #FFFFFF;
-    -fx-border-width: 2;
-    -fx-border-radius: 10px;
+Button {
+    -fx-background-color: #FFFFFF;
     -fx-background-radius: 10px;
+    -fx-border-color: #306fc1;
+    -fx-text-fill: #306fc1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+}
 
+Button:hover {
+    -fx-background-color: #F6B389;
+    -fx-text-fill: #FFFFFF;
 }
