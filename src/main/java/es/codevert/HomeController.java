@@ -8,8 +8,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 
+import com.github.ironbit.CodeVertFile;
 import com.github.ironbit.FileConverter;
+import com.github.ironbit.FileExtension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
@@ -39,6 +42,12 @@ public class HomeController {
     @FXML
     private HBox elQueDesaparece;
 
+    private final static FileConverter converter = new FileConverter();
+    private static CodeVertFile myCVF;
+
+    public void chooseFile(MouseEvent mouseEvent) {
+
+    }
 
     @FXML
     public void handleDragOver(DragEvent dragEvent) {
@@ -52,14 +61,17 @@ public class HomeController {
         List<File> files = dragEvent.getDragboard().getFiles();
         if (!files.isEmpty()) {
             File file = files.get(0);
-            String fileName = file.getName().toLowerCase();
-            if (fileName.endsWith(".txt") || fileName.endsWith(".csv") || fileName.endsWith(".json") || fileName.endsWith(".xml")) {
+            try {
+                this.myCVF = converter.prepareFile(file);
+/*
+                Set<FileExtension> fileExtensions = converter.getCompatibleExtensions(myCVF);
+*/
                 Image gif = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/check.gif")));
                 dragSquare.setImage(gif);
                 Image check = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/check.png")));
                 waitImage(check, 1800);
                 labelName.setStyle("-fx-text-fill: black;");
-                labelName.setText(fileName);
+                labelName.setText(myCVF.getFileName());
 
                 Timeline delay = new Timeline(new KeyFrame(Duration.seconds(2.5), ae -> {
                     vanishMainLayout(160, 5);
@@ -69,8 +81,8 @@ public class HomeController {
 
                     makesConverterAppear(160, 10);
 
-                    labelFile.setText(fileName.substring(0, fileName.indexOf('.')));
-                    labelFormat.setText("Extensión: " + fileName.toLowerCase().substring(fileName.lastIndexOf('.')));
+                    labelFile.setText(myCVF.getFileName());
+                    labelFormat.setText("Extensión: " + myCVF.getFileExtension());
                     Path path = Paths.get(file.getPath());
                     try {
                         labelWeight.setText("Tamaño: " + Files.size(path) + " bytes");
@@ -85,15 +97,17 @@ public class HomeController {
 
                 moveDownGif(100, 15);
 
-                FileConverter converter = new FileConverter();
-            } else {
+
+
+            } catch (Exception e) {
                 Image errorGif = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/error.gif")));
                 dragSquare.setImage(errorGif);
                 Image error = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/error.png")));
                 waitImage(error, 1800);
                 labelName.setStyle("-fx-text-fill: red;");
-                labelName.setText("Archivo con extensión " + fileName.substring(fileName.lastIndexOf('.')) + " no compatible");
+                labelName.setText("Archivo con extensión no compatible");
             }
+
         }
     }
 
@@ -156,7 +170,21 @@ public class HomeController {
         timeline.play();
     }
 
-    public void convertButtonAction(ActionEvent actionEvent) {
-        System.out.println("Code the api logic");
+    public void convertToXML(ActionEvent actionEvent) {
+        System.out.println(actionEvent.getEventType());
+        converter.convert(myCVF, FileExtension.XML, null);
     }
+
+    public void convertToJSON(ActionEvent actionEvent) {
+        converter.convert(myCVF, FileExtension.JSON, null);
+    }
+
+    public void convertToCSV(ActionEvent actionEvent) {
+        converter.convert(myCVF, FileExtension.CSV, null);
+    }
+
+    public void convertToTXT(ActionEvent actionEvent) {
+        converter.convert(myCVF, FileExtension.TXT, null);
+    }
+
 }
