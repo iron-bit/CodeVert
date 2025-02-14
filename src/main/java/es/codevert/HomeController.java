@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import com.github.ironbit.CodeVertException;
 import com.github.ironbit.CodeVertFile;
 import com.github.ironbit.FileConverter;
 import com.github.ironbit.FileExtension;
@@ -26,12 +27,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.stage.Stage;
 
 public class HomeController {
 
+    // Graphics elements
     @FXML
     private Label labelName, labelFile, labelFormat, labelWeight, labelEta;
 
@@ -47,58 +50,19 @@ public class HomeController {
     @FXML
     private ComboBox<String> comboBox;
 
-    private final static FileConverter converter = new FileConverter();
-    private CodeVertFile myCVF;
+    // Class variables
+    private final FileConverter CONVERTER = new FileConverter();
+    private CodeVertFile codevertFile;
 
-    public void chooseFile(MouseEvent mouseEvent) {
-        String[] test = {"All", "1", "2", "3"};
-        for (String t : test) {
-            comboBox.getItems().add(t);
-        }
+    private final String IMAGES_DIR = "/es/codevert/images/";
+
+
+    public void initFileChooser(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File selectedFile = fileChooser.showOpenDialog(new Stage());
-        try {
-            this.myCVF = converter.prepareFile(selectedFile);
-            Image gif = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/check.gif")));
-            dragSquare.setImage(gif);
-            Image check = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/check.png")));
-            waitImage(check, 1800);
-            labelName.setStyle("-fx-text-fill: black;");
-            labelName.setText(myCVF.getFileName());
 
-            Timeline delay = new Timeline(new KeyFrame(Duration.seconds(2.5), ae -> {
-                vanishMainLayout(160, 5);
-                elQueDesaparece.setDisable(true);
-                gridTocho.setDisable(false);
-                disableExtensionButton(selectedFile);
-
-                makesConverterAppear(160, 10);
-
-                labelFile.setText(myCVF.getFileName());
-                labelFormat.setText("Extensión: " + myCVF.getFileExtension());
-                Path path = Paths.get(selectedFile.getPath());
-                try {
-                    labelWeight.setText("Tamaño: " + Files.size(path) + " bytes");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                Random rnd = new Random();
-                int eta = 100 + rnd.nextInt(200);
-                labelEta.setText("Tiempo estimado: " + eta + "ms");
-            }));
-            delay.play();
-
-            moveDownGif(100, 15);
-
-        } catch (Exception e) {
-            Image errorGif = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/error.gif")));
-            dragSquare.setImage(errorGif);
-            Image error = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/error.png")));
-            waitImage(error, 1800);
-            labelName.setStyle("-fx-text-fill: red;");
-            labelName.setText("Archivo con extensión no compatible");
-        }
+        processFile(selectedFile);
     }
 
     @FXML
@@ -110,128 +74,193 @@ public class HomeController {
 
     @FXML
     public void handleDrop(DragEvent dragEvent) {
-        List<File> files = dragEvent.getDragboard().getFiles();
-        File file = files.get(0);
+        List<File> filesList = dragEvent.getDragboard().getFiles();
+        File selectedFile = filesList.get(0);
+
+        processFile(selectedFile);
+    }
+
+    public void processFile(File selectedFile) {
+        // Complete combobox
+//        String[] test = {"All", "1", "2", "3"};
+//        for (String t : test) {
+//            comboBox.getItems().add(t);
+//        }
+
         try {
-            this.myCVF = converter.prepareFile(file);
-/*
-                Set<FileExtension> fileExtensions = converter.getCompatibleExtensions(myCVF);
-*/
-            Image gif = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/check.gif")));
-            dragSquare.setImage(gif);
-            Image check = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/check.png")));
-            waitImage(check, 1800);
-            labelName.setStyle("-fx-text-fill: black;");
-            labelName.setText(myCVF.getFileName());
+            this.codevertFile = this.CONVERTER.prepareFile(selectedFile);
 
-            Timeline delay = new Timeline(new KeyFrame(Duration.seconds(2.5), ae -> {
-                vanishMainLayout(160, 5);
-                elQueDesaparece.setDisable(true);
-                gridTocho.setDisable(false);
-                disableExtensionButton(file);
-
-                makesConverterAppear(160, 10);
-
-                labelFile.setText(myCVF.getFileName());
-                labelFormat.setText("Extensión: " + myCVF.getFileExtension());
-                Path path = Paths.get(file.getPath());
-                try {
-                    labelWeight.setText("Tamaño: " + Files.size(path) + " bytes");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                Random rnd = new Random();
-                int eta = 5 + rnd.nextInt(10);
-                labelEta.setText("Tiempo estimado: " + eta + "ms");
-            }));
-            delay.play();
-
-            moveDownGif(100, 15);
-
-        } catch (Exception e) {
-            Image errorGif = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/error.gif")));
-            dragSquare.setImage(errorGif);
-            Image error = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/es/codevert/images/error.png")));
-            waitImage(error, 1800);
-            labelName.setStyle("-fx-text-fill: red;");
-            labelName.setText("Archivo con extensión no compatible");
+            changeCheckStatusGIF();
+            handleContainerTransition(selectedFile);
+        } catch (Exception e) { // Should be CodeVertException
+            changeErrorStatusGIF();
         }
     }
 
-    private void disableExtensionButton(File file) {
+    private void handleContainerTransition(File selectedFile) {
+        Timeline delay;
+
+        delay = new Timeline(new KeyFrame(Duration.seconds(2.5), event -> {
+            vanishMainLayout(160, 5);
+
+            elQueDesaparece.setDisable(true);
+            gridTocho.setDisable(false);
+
+            disableExtensionButton();
+
+            makesConverterAppear(160, 10);
+
+            String fileName = this.codevertFile.getFileName();
+            labelFile.setText(fileName);
+
+            FileExtension fileExtension = this.codevertFile.getFileExtension();
+            labelFormat.setText("Extensión: " + fileExtension.toString());
+
+            try {
+                Path path = Paths.get(selectedFile.getPath());
+                long fileWeight = Files.size(path);
+                labelWeight.setText("Tamaño: " + fileWeight + " bytes");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            int eta = generateRandomETA();
+            labelEta.setText("Tiempo estimado: " + eta + "ms");
+        }));
+
+        delay.play();
+
+        moveDownGif(100, 15);
+    }
+
+    private int generateRandomETA() {
+        Random random = new Random();
+        return random.nextInt(300);
+    }
+
+    private void changeErrorStatusGIF() {
+        String errorGIF = this.IMAGES_DIR + "error.gif";
+        String errorPNG = this.IMAGES_DIR + "error.png";
+
+        Image errorGif = new Image(Objects.requireNonNull(getClass().getResourceAsStream(errorGIF)));
+        dragSquare.setImage(errorGif);
+
+        Image error = new Image(Objects.requireNonNull(getClass().getResourceAsStream(errorPNG)));
+        waitImage(error, 1800);
+
+        labelName.setStyle("-fx-text-fill: red;");
+        labelName.setText("Archivo con extensión no compatible");
+    }
+
+    private void changeCheckStatusGIF() {
+        String checkGIF = this.IMAGES_DIR + "check.gif";
+        String checkPNG = this.IMAGES_DIR + "check.png";
+
+        Image gif = new Image(Objects.requireNonNull(getClass().getResourceAsStream(checkGIF)));
+        dragSquare.setImage(gif);
+
+        Image check = new Image(Objects.requireNonNull(getClass().getResourceAsStream(checkPNG)));
+        waitImage(check, 1800);
+
+        labelName.setStyle("-fx-text-fill: black;");
+        labelName.setText(this.codevertFile.getFileName());
+    }
+
+    private void disableExtensionButton() {
         ObservableList<Node> children = rightGrid.getChildren();
-        for (Node node : children) {
+
+        children.forEach(node -> {
             if (node instanceof Button) {
                 Button button = (Button) node;
-                String buttonText = button.getText().toLowerCase();
-                String fileExtension = file.getName().substring(file.getName().lastIndexOf('.') + 1).toLowerCase();
+                String buttonText = getButtonText(button);
+                String fileExtension = this.codevertFile.getFileExtension().toString().toLowerCase();
+
                 if (buttonText.equals(fileExtension)) {
                     button.setDisable(true);
-                    break;
                 }
             }
-        }
+        });
+    }
+
+    private String getButtonText(Button button) {
+        return button.getText().toLowerCase();
     }
 
     private void makesConverterAppear(int stepsOn, int durationOn) {
-        Timeline appear = new Timeline();
+        Timeline appearTimeline = new Timeline();
+
         for (int i = 0; i <= stepsOn; i++) {
             KeyFrame keyFrame = new KeyFrame(
                     Duration.millis(i * durationOn),
-                    ae -> gridTocho.setOpacity(gridTocho.getOpacity() + 1.0 / stepsOn)
+                    event -> {
+                        double newOpacity = this.gridTocho.getOpacity() + 1.0 / stepsOn;
+                        changePaneOpacity(this.gridTocho, newOpacity);
+                    }
             );
-            appear.getKeyFrames().add(keyFrame);
+            appearTimeline.getKeyFrames().add(keyFrame);
         }
-        appear.play();
+        appearTimeline.play();
     }
 
     private void vanishMainLayout(int stepsOff, int durationOff) {
-        Timeline vanish = new Timeline();
+        Timeline vanishTimeline = new Timeline();
+
         for (int i = 0; i <= stepsOff; i++) {
             KeyFrame keyFrame = new KeyFrame(
                     Duration.millis(i * durationOff),
-                    ae -> elQueDesaparece.setOpacity(elQueDesaparece.getOpacity() - 1.0 / stepsOff)
+                    event -> {
+                        double newOpacity = this.elQueDesaparece.getOpacity() - 1.0 /stepsOff;
+                        changePaneOpacity(this.elQueDesaparece, newOpacity);
+                    }
+
             );
-            vanish.getKeyFrames().add(keyFrame);
+            vanishTimeline.getKeyFrames().add(keyFrame);
         }
-        vanish.play();
+        vanishTimeline.play();
+    }
+
+    private void changePaneOpacity(Pane pane, double value) {
+        pane.setOpacity(value);
     }
 
     private void moveDownGif(int stepsDown, int durationDown) {
-        Timeline moveDown = new Timeline();
+        Timeline moveDownTimeline = new Timeline();
+
         for (int i = 0; i <= stepsDown; i++) {
             KeyFrame keyFrame = new KeyFrame(
                     Duration.millis(i * durationDown),
-                    ae -> myGifPane.setTranslateY(myGifPane.getTranslateY() + 1)
+                    event -> {
+                        double newPosition = this.myGifPane.getTranslateY() + 1;
+                        myGifPane.setTranslateY(newPosition);
+                    }
             );
-            moveDown.getKeyFrames().add(keyFrame);
+            moveDownTimeline.getKeyFrames().add(keyFrame);
         }
-        moveDown.play();
+        moveDownTimeline.play();
     }
 
     private void waitImage(Image image, int millis) {
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(millis),
-                ae -> dragSquare.setImage(image)
+                event -> dragSquare.setImage(image)
         ));
         timeline.play();
     }
 
     public void convertToXML(ActionEvent actionEvent) {
-        System.out.println(actionEvent.getEventType());
-        converter.convert(myCVF, FileExtension.XML, null);
+        CONVERTER.convert(codevertFile, FileExtension.XML, null);
     }
 
     public void convertToJSON(ActionEvent actionEvent) {
-        converter.convert(myCVF, FileExtension.JSON, null);
+        CONVERTER.convert(codevertFile, FileExtension.JSON, null);
     }
 
     public void convertToCSV(ActionEvent actionEvent) {
-        converter.convert(myCVF, FileExtension.CSV, null);
+        CONVERTER.convert(codevertFile, FileExtension.CSV, null);
     }
 
     public void convertToTXT(ActionEvent actionEvent) {
-        converter.convert(myCVF, FileExtension.TXT, null);
+        CONVERTER.convert(codevertFile, FileExtension.TXT, null);
     }
 
 }
