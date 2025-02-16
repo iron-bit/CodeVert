@@ -30,6 +30,14 @@
             <version>23.0.1</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.49.0.0</version>
+        </dependency>
+
+
         <!--        Tenemos que cambiar la versión del commit a la versión del release cuando la vamos a tener-->
         <dependency>
             <groupId>com.github.iron-bit</groupId>
