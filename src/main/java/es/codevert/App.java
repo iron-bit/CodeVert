@@ -1,6 +1,5 @@
 package es.codevert;
 
-import com.github.ironbit.FileConverter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -11,21 +10,19 @@ import javafx.stage.Stage;
 
 import javafx.scene.image.Image;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-/**
- * JavaFX App
- */
+
+
 public class App extends Application {
 
     private static Scene scene;
-    private static String prefix = "fxml/";
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("home"));
+        String homeFXML = "home";
+        scene = new Scene(loadFXML(homeFXML));
         configureHomeWindow(stage);
         stage.show();
     }
@@ -47,6 +44,7 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
+        String prefix = "fxml/";
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(prefix + fxml + ".fxml"));
         return fxmlLoader.load();
     }

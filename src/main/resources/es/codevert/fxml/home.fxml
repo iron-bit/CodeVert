@@ -41,7 +41,7 @@
                      <children>
                         <VBox alignment="CENTER" maxHeight="255.0" maxWidth="360.0" minHeight="220.0" minWidth="303.0" prefHeight="285.0" prefWidth="360.0" styleClass="dragSquareContainer">
                            <children>
-                              <ImageView fx:id="dragSquare" fitHeight="199.0" fitWidth="215.0" onDragDropped="#handleDrop" onDragOver="#handleDragOver" onMouseClicked="#chooseFile" opacity="0.8" pickOnBounds="true" preserveRatio="true" styleClass="dragSquare">
+                              <ImageView fx:id="dragSquare" fitHeight="199.0" fitWidth="215.0" onDragDropped="#handleDrop" onDragOver="#handleDragOver" onMouseClicked="#initFileChooser" opacity="0.8" pickOnBounds="true" preserveRatio="true" styleClass="dragSquare">
                                  <cursor>
                                     <Cursor fx:constant="OPEN_HAND" />
                                  </cursor>
