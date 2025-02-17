@@ -66,10 +66,9 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <ImageView fx:id="myGifPane" fitHeight="430.0" fitWidth="1530.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/myGif.gif" />
-                     </image>
+                  <ImageView fx:id="myGifPane" fitHeight="430.0" fitWidth="1530.0" pickOnBounds="true"
+                             preserveRatio="true">
+                     <Image url="@../images/myGif.gif"/>
                   </ImageView>
                </children>
             </VBox>

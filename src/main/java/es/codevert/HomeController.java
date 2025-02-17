@@ -248,6 +248,7 @@ public class HomeController {
     }
 
     public void convertToXML(ActionEvent actionEvent) {
+        System.out.println(codevertFile.getFileName());
         CONVERTER.convert(codevertFile, FileExtension.XML, null);
     }
 
@@ -262,5 +263,4 @@ public class HomeController {
     public void convertToTXT(ActionEvent actionEvent) {
         CONVERTER.convert(codevertFile, FileExtension.TXT, null);
     }
-
 }

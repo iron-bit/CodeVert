@@ -3,13 +3,19 @@ package es.codevert;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 
 public class PrimaryController {
 
-    public Button primaryButton;
+    public void openFileMenu(MouseEvent mouseEvent) throws IOException {
+        App.setRoot("home");
+    }
 
-    @FXML
-    private void switchToSecondary() throws IOException {
+    public void openDBMenu(MouseEvent mouseEvent) throws IOException {
         App.setRoot("secondary");
+    }
+
+    public void openApiMenu(MouseEvent mouseEvent) throws IOException {
+        App.setRoot("home");
     }
 }

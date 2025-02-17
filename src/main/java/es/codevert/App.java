@@ -21,7 +21,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        String homeFXML = "home";
+        String homeFXML = "primary";
         scene = new Scene(loadFXML(homeFXML));
         configureHomeWindow(stage);
         stage.show();
