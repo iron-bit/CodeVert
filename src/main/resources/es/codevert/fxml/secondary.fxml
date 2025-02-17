@@ -48,17 +48,17 @@
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="urlLabel" prefHeight="40.0" promptText="url">
+                              <TextField fx:id="urlLabel" onKeyTyped="#returnOriginalBorder" prefHeight="40.0" promptText="url">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField fx:id="userLabel" prefHeight="40.0" promptText="user">
+                              <TextField fx:id="userLabel" onKeyTyped="#returnOriginalBorder" prefHeight="40.0" promptText="user">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField fx:id="passwordLabel" prefHeight="40.0" promptText="password">
+                              <TextField fx:id="passwordLabel" onKeyTyped="#returnOriginalBorder" prefHeight="40.0" promptText="password">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
