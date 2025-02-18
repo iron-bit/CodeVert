@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import com.github.ironbit.CodeVertException;
 import com.github.ironbit.CodeVertFile;
 import com.github.ironbit.FileConverter;
 import com.github.ironbit.FileExtension;
@@ -32,7 +31,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.stage.Stage;
 
-public class HomeController {
+public class FileAppController {
 
     // Graphics elements
     @FXML

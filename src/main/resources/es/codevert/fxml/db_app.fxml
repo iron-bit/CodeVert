@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="874.0" prefWidth="1920.0" stylesheets="@../css/csstry.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.codevert.SecondaryController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="874.0" prefWidth="1920.0" stylesheets="@../css/csstry.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.codevert.DBAppController">
     <children>
         <StackPane prefHeight="874.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -75,9 +75,9 @@
                                 <Insets />
                             </VBox.margin>
                         </HBox>
-                        <ImageView fx:id="myGifPane" fitHeight="430.0" fitWidth="1530.0" pickOnBounds="true" preserveRatio="true">
+                        <!--<ImageView fx:id="myGifPane" fitHeight="430.0" fitWidth="1530.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../images/myGif.gif" />
-                        </ImageView>
+                        </ImageView>-->
                     </children>
                 </VBox>
                 <GridPane id="gridTocho" fx:id="gridTocho" alignment="CENTER" disable="true" opacity="0.0" prefHeight="841.0" prefWidth="1920.0">
@@ -103,7 +103,7 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <GridPane.margin>
-                                <Insets bottom="100.0" left="60.0" right="300.0" top="150.0" />
+                                <Insets bottom="100.0" left="130.0" right="280.0" top="150.0" />
                             </GridPane.margin>
                             <children>
                                 <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="180.0" text="TXT" textFill="#306fc1">
@@ -140,18 +140,18 @@
                                 </Button>
                             </children>
                         </GridPane>
-                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <VBox prefHeight="291.0" prefWidth="648.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
-                                <Label fx:id="labelFile" prefHeight="39.0" prefWidth="268.0" textFill="#306fc1">
+                                <Label id="LabelDBName" fx:id="labelDBName" prefHeight="39.0" prefWidth="638.0" textFill="#306fc1">
                                     <font>
                                         <Font name="System Bold" size="27.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets />
+                                        <Insets left="10.0" />
                                     </VBox.margin></Label>
                                 <VBox id="propertiesBox" prefHeight="170.0" prefWidth="200.0">
                                     <children>
-                                        <Label fx:id="labelFormat" prefHeight="27.0" prefWidth="731.0" textFill="#306fc1">
+                                        <Label fx:id="labelDBType" prefHeight="32.0" prefWidth="578.0" textFill="#306fc1">
                                             <font>
                                                 <Font size="22.0" />
                                             </font>
@@ -159,7 +159,7 @@
                                                 <Insets left="10.0" top="15.0" />
                                             </VBox.margin>
                                         </Label>
-                                        <Label fx:id="labelWeight" prefHeight="27.0" prefWidth="730.0" textFill="#306fc1">
+                                        <Label fx:id="labelDBAlgo1" prefHeight="27.0" prefWidth="730.0" textFill="#306fc1">
                                             <VBox.margin>
                                                 <Insets left="10.0" top="15.0" />
                                             </VBox.margin>
@@ -167,7 +167,7 @@
                                                 <Font size="22.0" />
                                             </font>
                                         </Label>
-                                        <Label fx:id="labelEta" prefHeight="27.0" prefWidth="724.0" textFill="#306fc1">
+                                        <Label fx:id="labelDBAlgo2" prefHeight="27.0" prefWidth="724.0" textFill="#306fc1">
                                             <font>
                                                 <Font size="22.0" />
                                             </font>
@@ -179,7 +179,7 @@
                                 </VBox>
                             </children>
                             <GridPane.margin>
-                                <Insets left="240.0" top="80.0" />
+                                <Insets top="80.0" />
                             </GridPane.margin>
                         </VBox>
                         <ComboBox fx:id="comboBox" prefHeight="43.0" prefWidth="192.0" GridPane.columnIndex="1" GridPane.rowIndex="2">

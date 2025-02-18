@@ -1,20 +1,14 @@
 package es.codevert;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import com.github.ironbit.FileExtension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -23,18 +17,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class SecondaryController {
-
+public class DBAppController {
 
     public TextField urlLabel, userLabel, passwordLabel;
     public HBox elQueDesaparece;
     public GridPane gridTocho;
     public GridPane rightGrid;
     public ImageView myGifPane;
+    public Label labelDBName, labelDBType, labelDBAlgo1, labelDBAlgo2;
 
     public void connectToDB(ActionEvent actionEvent) {
         if (checkCredentials()) {
-            connectToDB();
             handleContainerTransition();
         } else {
             changeErrorBorder();
@@ -42,13 +35,33 @@ public class SecondaryController {
     }
 
     private boolean checkCredentials() {
-        // TODO comprobar si es correcto
+        String url = this.urlLabel.getText();
+        if (url.isBlank()) return false;
+        String user = this.userLabel.getText();
+        String password = this.passwordLabel.getText();
+
+        return connectToDB(url, user, password);
+    }
+
+    private boolean connectToDB(String url, String user, String password) {
+        try {
+            Connection c = DriverManager.getConnection(url, user, password);
+            System.out.println("Connection Established successfully");
+            setLabelTexts(c);
+            Statement st = c.createStatement();
+            // TODO
+            return true;
+        } catch (Exception e) {
+            System.err.println("Connection denied. Check your credentials, the driver connectors and the database status.");
+        }
         return false;
     }
 
-    private void connectToDB() {
-        // TODO connect to database
-        System.out.println("Connexion con db exitosa");
+    private void setLabelTexts(Connection c) throws SQLException {
+        labelDBName.setText(c.getCatalog().toUpperCase());
+        labelDBType.setText("Provider: " + c.getMetaData().getDatabaseProductName());
+        labelDBAlgo1.setText("Driver name: " + c.getMetaData().getDriverName());
+        labelDBAlgo2.setText("Driver version: " + c.getMetaData().getDriverVersion());
     }
 
     private void handleContainerTransition() {
@@ -122,14 +135,14 @@ public class SecondaryController {
     }
 
     public void changeErrorBorder() {
-        urlLabel.setStyle("-fx-border-color: red");
-        userLabel.setStyle("-fx-border-color: red");
-        passwordLabel.setStyle("-fx-border-color: red");
+        this.urlLabel.setStyle("-fx-border-color: red");
+        this.userLabel.setStyle("-fx-border-color: red");
+        this.passwordLabel.setStyle("-fx-border-color: red");
     }
 
     public void returnOriginalBorder(KeyEvent keyEvent) {
-        urlLabel.setStyle("-fx-border-color: none");
-        userLabel.setStyle("-fx-border-color: none");
-        passwordLabel.setStyle("-fx-border-color: none");
+        this.urlLabel.setStyle("-fx-border-color: none");
+        this.userLabel.setStyle("-fx-border-color: none");
+        this.passwordLabel.setStyle("-fx-border-color: none");
     }
 }

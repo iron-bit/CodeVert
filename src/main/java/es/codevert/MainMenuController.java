@@ -1,18 +1,17 @@
 package es.codevert;
 
 import java.io.IOException;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+
 import javafx.scene.input.MouseEvent;
 
-public class PrimaryController {
+public class MainMenuController {
 
     public void openFileMenu(MouseEvent mouseEvent) throws IOException {
-        App.setRoot("home");
+        App.setRoot("file_app");
     }
 
     public void openDBMenu(MouseEvent mouseEvent) throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("db_app");
     }
 
     public void openApiMenu(MouseEvent mouseEvent) throws IOException {
