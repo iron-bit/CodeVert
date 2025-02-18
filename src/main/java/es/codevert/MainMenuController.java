@@ -15,6 +15,6 @@ public class MainMenuController {
     }
 
     public void openApiMenu(MouseEvent mouseEvent) throws IOException {
-        App.setRoot("home");
+        App.setRoot("api_app");
     }
 }

@@ -17,71 +17,30 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class DBAppController {
+public class ApiAppController {
 
-    public TextField urlLabel, userLabel, passwordLabel;
+    public TextField urlLabel;
     public HBox elQueDesaparece;
     public GridPane gridTocho;
     public GridPane rightGrid;
     public ImageView myGifPane;
-    public Label labelDBName, labelDBType, labelDBAlgo1, labelDBAlgo2;
+    public Label labelDBName;
 
-    public void connectToDBButton(ActionEvent actionEvent) {
-        try (Connection c = checkCredentials();){
-            if (c != null) {
-                handleContainerTransition();
-                // TODO
-            } else {
-                changeErrorBorder();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+    public void requestApiButton(ActionEvent actionEvent) {
+        if (checkCredentials()) {
+            handleContainerTransition();
+        } else {
+            changeErrorBorder();
         }
     }
 
-    private Connection checkCredentials() {
+    private boolean checkCredentials() {
         String url = this.urlLabel.getText();
-        if (url.isBlank()) return null;
-        String user = this.userLabel.getText();
-        String password = this.passwordLabel.getText();
-
-        if (url.contains("mysql")) {
-            return connectToMySQLDB(url, user, password);
-        } else if (url.contains("sqlite")) {
-            return connectToSQLite(url);
+        if (url.isBlank()) {
+            return false;
         }
-        return null;
-    }
 
-    private Connection connectToMySQLDB(String url, String user, String password) {
-        try {
-            Connection c = DriverManager.getConnection(url, user, password);
-            System.out.println("Connection Established successfully");
-            setLabelTexts(c);
-            return c;
-        } catch (Exception e) {
-            System.err.println("Connection denied. Check your credentials, the driver connectors and the database status.");
-        }
-        return null;
-    }
-
-    private Connection connectToSQLite(String url) {
-        try {
-            Connection c = DriverManager.getConnection(url);
-            System.out.println("Connection Established successfully");
-            setLabelTexts(c);
-            return c;
-        } catch (Exception e) {
-            System.err.println("Connection denied. Check your credentials, the driver connectors and the database status.");
-        }
-        return null;
-    }
-
-    private void setLabelTexts(Connection c) throws SQLException {
-        labelDBName.setText(c.getCatalog());
-        labelDBType.setText("Provider: " + c.getMetaData().getDatabaseProductName());
-        labelDBAlgo1.setText("Driver name: " + c.getMetaData().getDriverName());
-        labelDBAlgo2.setText("Driver version: " + c.getMetaData().getDriverVersion());
+        return false;
     }
 
     private void handleContainerTransition() {
@@ -156,13 +115,9 @@ public class DBAppController {
 
     public void changeErrorBorder() {
         this.urlLabel.setStyle("-fx-border-color: red");
-        this.userLabel.setStyle("-fx-border-color: red");
-        this.passwordLabel.setStyle("-fx-border-color: red");
     }
 
     public void returnOriginalBorder(KeyEvent keyEvent) {
         this.urlLabel.setStyle("-fx-border-color: none");
-        this.userLabel.setStyle("-fx-border-color: none");
-        this.passwordLabel.setStyle("-fx-border-color: none");
     }
 }

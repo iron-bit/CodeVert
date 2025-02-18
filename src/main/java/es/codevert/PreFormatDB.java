@@ -4,7 +4,7 @@ package es.codevert;
 import java.sql.*;
 import java.util.*;
 
-public class DBToCsv {
+public class PreFormatDB {
 
     public static Map<String, Map<String, String>> getAllTablesAsCSVMap(Connection conn) throws SQLException {
         Map<String, Map<String, String>> dbContents = new LinkedHashMap<>();
