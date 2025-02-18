@@ -21,7 +21,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Label text="Convierte tus archivos a lo loco" textFill="#306fc1">
+                  <Label text="Convert files effortlessly, anytime, anywhere." textFill="#306fc1">
                      <font>
                         <Font name="System Bold" size="32.0" />
                      </font>
@@ -29,7 +29,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Label text="Lorem ipsum Paloma dolor set as iguana papaya kebab carne" textFill="#306fc1">
+                  <Label text="Fast, secure, and easy file conversion for any format right from your browser." textFill="#306fc1">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -139,7 +139,7 @@
                               <Font name="System Bold" size="27.0" />
                            </font>
                            <VBox.margin>
-                              <Insets />
+                              <Insets left="10.0" />
                            </VBox.margin></Label>
                         <VBox id="propertiesBox" prefHeight="170.0" prefWidth="200.0">
                            <children>

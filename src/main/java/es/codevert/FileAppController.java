@@ -80,7 +80,7 @@ public class FileAppController {
     }
 
     public void processFile(File selectedFile) {
-        // Complete combobox
+        // TODO Complete combobox
 //        String[] test = {"All", "1", "2", "3"};
 //        for (String t : test) {
 //            comboBox.getItems().add(t);
@@ -113,18 +113,18 @@ public class FileAppController {
             labelFile.setText(fileName);
 
             FileExtension fileExtension = this.codevertFile.getFileExtension();
-            labelFormat.setText("Extensión: " + fileExtension.toString());
+            labelFormat.setText("Extension: " + fileExtension.toString());
 
             try {
                 Path path = Paths.get(selectedFile.getPath());
                 long fileWeight = Files.size(path);
-                labelWeight.setText("Tamaño: " + fileWeight + " bytes");
+                labelWeight.setText("Size: " + fileWeight + " bytes");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
             int eta = generateRandomETA();
-            labelEta.setText("Tiempo estimado: " + eta + "ms");
+            labelEta.setText("ETA: " + eta + "ms");
         }));
 
         delay.play();
@@ -148,7 +148,7 @@ public class FileAppController {
         waitImage(error, 1800);
 
         labelName.setStyle("-fx-text-fill: red;");
-        labelName.setText("Archivo con extensión no compatible");
+        labelName.setText("File extension not compatible");
     }
 
     private void changeCheckStatusGIF() {

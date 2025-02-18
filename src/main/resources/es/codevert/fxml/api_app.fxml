@@ -20,7 +20,7 @@
                                 <Insets top="10.0" />
                             </VBox.margin>
                         </ImageView>
-                        <Label text="Convierte tus archivos a lo loco" textFill="#306fc1">
+                        <Label text="Convert files effortlessly, anytime, anywhere." textFill="#306fc1">
                             <font>
                                 <Font name="System Bold" size="32.0" />
                             </font>
@@ -28,7 +28,7 @@
                                 <Insets />
                             </VBox.margin>
                         </Label>
-                        <Label text="Lorem ipsum Paloma dolor set as iguana papaya kebab carne" textFill="#306fc1">
+                        <Label text="Fast, secure, and easy file conversion for any format right from your browser." textFill="#306fc1">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -98,7 +98,7 @@
                             <children>
                                 <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="180.0" text="TXT" textFill="#306fc1">
                                     <GridPane.margin>
-                                        <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                                     </GridPane.margin>
                                     <font>
                                         <Font name="System Bold" size="18.0" />
@@ -106,7 +106,7 @@
                                 </Button>
                                 <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="241.0" text="CSV" textFill="#306fc1" GridPane.columnIndex="1">
                                     <GridPane.margin>
-                                        <Insets bottom="5.0" left="5.0" right="10.0" top="10.0" />
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                                     </GridPane.margin>
                                     <font>
                                         <Font name="System Bold" size="18.0" />
@@ -114,7 +114,7 @@
                                 </Button>
                                 <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="188.0" text="JSON" textFill="#306fc1" GridPane.rowIndex="1">
                                     <GridPane.margin>
-                                        <Insets bottom="10.0" left="10.0" right="5.0" top="5.0" />
+                                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
                                     <font>
                                         <Font name="System Bold" size="18.0" />
@@ -122,7 +122,7 @@
                                 </Button>
                                 <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="318.0" text="XML" textFill="#306fc1" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <GridPane.margin>
-                                        <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
+                                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
                                     <font>
                                         <Font name="System Bold" size="18.0" />
@@ -132,12 +132,12 @@
                         </GridPane>
                         <VBox prefHeight="291.0" prefWidth="648.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
-                                <Label id="LabelDBName" fx:id="labelDBName" prefHeight="39.0" prefWidth="638.0" text="Select your export file" textFill="#306fc1">
+                                <Label id="LabelDBName" fx:id="labelDBName" prefHeight="39.0" prefWidth="422.0" text="Select your export format" textFill="#306fc1">
                                     <font>
                                         <Font name="System Bold" size="27.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets left="10.0" top="113.0" />
+                                        <Insets left="180.0" top="97.0" />
                                     </VBox.margin></Label>
                             </children>
                             <GridPane.margin>

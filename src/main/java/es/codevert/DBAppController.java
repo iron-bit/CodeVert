@@ -154,15 +154,21 @@ public class DBAppController {
         moveDownTimeline.play();
     }
 
-    public void changeErrorBorder() {
+    /*public void changeErrorBorder() {
         this.urlLabel.setStyle("-fx-border-color: red");
         this.userLabel.setStyle("-fx-border-color: red");
         this.passwordLabel.setStyle("-fx-border-color: red");
+    }*/
+
+    public void changeErrorBorder() {
+        this.urlLabel.getStyleClass().add("error");
+        this.userLabel.getStyleClass().add("error");
+        this.passwordLabel.getStyleClass().add("error");
     }
 
     public void returnOriginalBorder(KeyEvent keyEvent) {
-        this.urlLabel.setStyle("-fx-border-color: none");
-        this.userLabel.setStyle("-fx-border-color: none");
-        this.passwordLabel.setStyle("-fx-border-color: none");
+        this.urlLabel.getStyleClass().remove("error");
+        this.userLabel.getStyleClass().remove("error");
+        this.passwordLabel.getStyleClass().remove("error");
     }
 }

@@ -1,5 +1,14 @@
 package es.codevert;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,6 +17,7 @@ import java.sql.Statement;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -25,8 +35,9 @@ public class ApiAppController {
     public GridPane rightGrid;
     public ImageView myGifPane;
     public Label labelDBName;
+    public ComboBox<String> comboBox;
 
-    public void requestApiButton(ActionEvent actionEvent) {
+    public void requestApiButton(ActionEvent actionEvent) throws IOException {
         if (checkCredentials()) {
             handleContainerTransition();
         } else {
@@ -34,13 +45,56 @@ public class ApiAppController {
         }
     }
 
-    private boolean checkCredentials() {
+    private boolean checkCredentials() throws IOException {
+        // TODO Complete combobox
+        String[] test = {"All", "1", "2", "3"};
+        for (String t : test) {
+            comboBox.getItems().add(t);
+        }
+
         String url = this.urlLabel.getText();
+        fetchAndSaveJson(url);
+
         if (url.isBlank()) {
-            return false;
+            return true;
         }
 
         return false;
+    }
+
+    public static void fetchAndSaveJson(String urlString) {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+        try {
+            // Create URL object
+            URL url = new URL(urlString);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+
+            // Read response
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder responseContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line).append("\n");
+            }
+
+            // Create a temporary file
+            Path tempFile = Files.createTempFile("api_response", ".json");
+            Files.write(tempFile, responseContent.toString().getBytes(), StandardOpenOption.WRITE);
+
+            System.out.println("JSON response saved to: " + tempFile.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+        } finally {
+            try {
+                if (reader != null) reader.close();
+                if (connection != null) connection.disconnect();
+            } catch (IOException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
     }
 
     private void handleContainerTransition() {
@@ -114,10 +168,10 @@ public class ApiAppController {
     }
 
     public void changeErrorBorder() {
-        this.urlLabel.setStyle("-fx-border-color: red");
+        this.urlLabel.getStyleClass().add("error");
     }
 
     public void returnOriginalBorder(KeyEvent keyEvent) {
-        this.urlLabel.setStyle("-fx-border-color: none");
+        this.urlLabel.getStyleClass().remove("error");
     }
 }

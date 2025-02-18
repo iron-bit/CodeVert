@@ -57,3 +57,43 @@ Button:hover {
     -fx-background-color: #F6B389;
     -fx-text-fill: #FFFFFF;
 }
+
+ComboBox {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-color: #306fc1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #306fc1;
+}
+
+ComboBox .list-view .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-color: #306fc1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-text-fill: #306fc1;
+}
+
+ComboBox .list-view {
+    -fx-background-color: none;
+}
+
+ComboBox .list-view .list-cell:hover {
+    -fx-background-color: #e1e1e1;
+}
+
+TextField {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-color: #306fc1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-text-fill: #306fc1;
+    -fx-font-size: 16px;
+}
+
+TextField.error {
+    -fx-border-color: #fb6767;
+}
