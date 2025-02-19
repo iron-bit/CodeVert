@@ -262,22 +262,25 @@ public class FileAppController {
 
     public void convertToXML(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
-        CONVERTER.convert(codevertFile, FileExtension.XML, selectedFilter);
+        String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.XML, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
     }
-
 
     public void convertToJSON(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
-        CONVERTER.convert(codevertFile, FileExtension.JSON, selectedFilter);
+        String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.JSON, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
     }
 
     public void convertToCSV(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
-        CONVERTER.convert(codevertFile, FileExtension.CSV, selectedFilter);
+        String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.CSV, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
     }
 
     public void convertToTXT(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
-        CONVERTER.convert(codevertFile, FileExtension.TXT, selectedFilter);
+        String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.TXT, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
     }
 }
