@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.Callable;
 
 import com.github.ironbit.CodeVertFile;
 import com.github.ironbit.FileConverter;
@@ -55,6 +54,8 @@ public class FileAppController {
 
     private final String IMAGES_DIR = "/es/codevert/images/";
 
+    private String selectedFilter = null;
+    private String selectAllLabel = "Seleccionar Todo";
 
     public void initFileChooser(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
@@ -80,14 +81,17 @@ public class FileAppController {
     }
 
     public void processFile(File selectedFile) {
-        // TODO Complete combobox
-//        String[] test = {"All", "1", "2", "3"};
-//        for (String t : test) {
-//            comboBox.getItems().add(t);
-//        }
-
         try {
             this.codevertFile = this.CONVERTER.prepareFile(selectedFile);
+
+            // Add filters to comboBox
+            this.comboBox.getItems().add(this.selectAllLabel);
+            ArrayList<String> filters = this.codevertFile.getKeys();
+            filters.forEach(filter -> {
+                comboBox.getItems().add(filter);
+                System.out.println(filter);
+            });
+            this.comboBox.getSelectionModel().select(0);
 
             changeCheckStatusGIF();
             handleContainerTransition(selectedFile);
@@ -246,20 +250,34 @@ public class FileAppController {
         timeline.play();
     }
 
-    public void convertToXML(ActionEvent actionEvent) {
-        System.out.println(codevertFile.getFileName());
-        CONVERTER.convert(codevertFile, FileExtension.XML, null);
+    private String getSelectedFilter() {
+        this.selectedFilter = this.comboBox.getValue();
+
+        if (this.selectedFilter == null || this.selectedFilter.equals(this.selectAllLabel)) {
+           return null;
+        }
+
+        return this.selectedFilter;
     }
 
+    public void convertToXML(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        CONVERTER.convert(codevertFile, FileExtension.XML, selectedFilter);
+    }
+
+
     public void convertToJSON(ActionEvent actionEvent) {
-        CONVERTER.convert(codevertFile, FileExtension.JSON, null);
+        String selectedFilter = getSelectedFilter();
+        CONVERTER.convert(codevertFile, FileExtension.JSON, selectedFilter);
     }
 
     public void convertToCSV(ActionEvent actionEvent) {
-        CONVERTER.convert(codevertFile, FileExtension.CSV, null);
+        String selectedFilter = getSelectedFilter();
+        CONVERTER.convert(codevertFile, FileExtension.CSV, selectedFilter);
     }
 
     public void convertToTXT(ActionEvent actionEvent) {
-        CONVERTER.convert(codevertFile, FileExtension.TXT, null);
+        String selectedFilter = getSelectedFilter();
+        CONVERTER.convert(codevertFile, FileExtension.TXT, selectedFilter);
     }
 }
