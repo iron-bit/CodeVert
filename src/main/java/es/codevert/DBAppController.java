@@ -4,10 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Map;
 
+import com.github.ironbit.FileConverter;
+import com.github.ironbit.FileExtension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -24,11 +29,22 @@ public class DBAppController {
     public GridPane gridTocho;
     public GridPane rightGrid;
     public ImageView myGifPane;
+    public ComboBox<String> comboBox;
     public Label labelDBName, labelDBType, labelDBAlgo1, labelDBAlgo2;
+
+    private Connection connection = null;
+
+    private final FileConverter CONVERTER = new FileConverter();
+    private Map<String, Map<String, String>> dbFile;
+
+    private String selectedFilter = null;
+    private String selectAllLabel = "Seleccionar Todo";
+
 
     public void connectToDBButton(ActionEvent actionEvent) {
         try (Connection c = checkCredentials();){
             if (c != null) {
+                this.connection = c;
                 handleContainerTransition();
                 // TODO
             } else {
@@ -99,6 +115,23 @@ public class DBAppController {
         delay.play();
 
         moveDownGif(100, 15);
+
+        //
+        try {
+            this.dbFile = PreFormatDB.getAllTablesAsCSVMap(this.connection);
+            ArrayList<String> filtersList = new ArrayList<>(dbFile.keySet());
+
+            this.comboBox.getItems().add(this.selectAllLabel);
+            filtersList.forEach(filter -> {
+                this.comboBox.getItems().add(filter);
+            });
+            this.comboBox.getSelectionModel().select(0);
+
+        } catch (SQLException e) {
+            System.out.println("Can't get tables from database: " + e.getMessage() );
+        }
+
+
     }
 
     private void vanishMainLayout(int stepsOff, int durationOff) {
@@ -170,5 +203,40 @@ public class DBAppController {
         this.urlLabel.getStyleClass().remove("error");
         this.userLabel.getStyleClass().remove("error");
         this.passwordLabel.getStyleClass().remove("error");
+    }
+
+
+    private String getSelectedFilter() {
+        this.selectedFilter = this.comboBox.getValue();
+
+        if (this.selectedFilter == null || this.selectedFilter.equals(this.selectAllLabel)) {
+            return null;
+        }
+
+        return this.selectedFilter;
+    }
+
+    public void convertToTXT(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.TXT, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
+    }
+
+    public void convertToCSV(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.CSV, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
+    }
+
+    public void convertToJSON(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.JSON, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
+    }
+
+    public void convertToXML(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.XML, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
     }
 }

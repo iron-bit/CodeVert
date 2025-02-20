@@ -16,6 +16,9 @@ public class PreFormatDB {
         // Step 2: Process each table
         while (tables.next()) {
             String tableName = tables.getString("TABLE_NAME");
+            if (tableName.equals("sys_config")) {
+                continue;
+            }
             dbContents.put(tableName, getTableAsCSVMap(conn, tableName));
         }
 
