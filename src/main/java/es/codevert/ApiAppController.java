@@ -1,6 +1,7 @@
 package es.codevert;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -13,7 +14,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import com.github.ironbit.CodeVertFile;
+import com.github.ironbit.FileConverter;
+import com.github.ironbit.FileExtension;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -37,32 +42,46 @@ public class ApiAppController {
     public Label labelDBName;
     public ComboBox<String> comboBox;
 
+
+    private final FileConverter CONVERTER = new FileConverter();
+    private String pathTempJSON = null;
+    private File tempJSON = null;
+    private CodeVertFile codevertFile;
+
+    private String selectAllLabel = "Seleccionar Todo";
+    private String selectedFilter = null;
+
+
     public void requestApiButton(ActionEvent actionEvent) throws IOException {
         if (checkCredentials()) {
             handleContainerTransition();
+
+            //
+            this.tempJSON = new File(this.pathTempJSON);
+            this.codevertFile = CONVERTER.prepareFile(this.tempJSON);
+
+            this.comboBox.getItems().add(this.selectAllLabel);
+            ArrayList<String> filters = this.codevertFile.getKeys();
+            System.out.println(filters);
+            filters.forEach(filter -> {
+                this.comboBox.getItems().add(filter);
+                System.out.println(filter);
+            });
+            this.comboBox.getSelectionModel().select(0);
+
         } else {
             changeErrorBorder();
         }
     }
 
     private boolean checkCredentials() throws IOException {
-        // TODO Complete combobox
-        String[] test = {"All", "1", "2", "3"};
-        for (String t : test) {
-            comboBox.getItems().add(t);
-        }
-
         String url = this.urlLabel.getText();
-        fetchAndSaveJson(url);
+        this.pathTempJSON = fetchAndSaveJson(url);
 
-        if (url.isBlank()) {
-            return true;
-        }
-
-        return false;
+        return !url.isBlank() && this.pathTempJSON != null;
     }
 
-    public static void fetchAndSaveJson(String urlString) {
+    public static String fetchAndSaveJson(String urlString) {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         try {
@@ -85,6 +104,7 @@ public class ApiAppController {
             Files.write(tempFile, responseContent.toString().getBytes(), StandardOpenOption.WRITE);
 
             System.out.println("JSON response saved to: " + tempFile.toAbsolutePath());
+            return tempFile.toAbsolutePath().toString();
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
@@ -95,6 +115,8 @@ public class ApiAppController {
                 System.err.println("Error closing resources: " + e.getMessage());
             }
         }
+
+        return null;
     }
 
     private void handleContainerTransition() {
@@ -112,6 +134,8 @@ public class ApiAppController {
         delay.play();
 
         moveDownGif(100, 15);
+
+
     }
 
     private void vanishMainLayout(int stepsOff, int durationOff) {
@@ -173,5 +197,37 @@ public class ApiAppController {
 
     public void returnOriginalBorder(KeyEvent keyEvent) {
         this.urlLabel.getStyleClass().remove("error");
+    }
+
+    private String getSelectedFilter() {
+        this.selectedFilter = this.comboBox.getValue();
+
+        if (this.selectedFilter == null || this.selectedFilter.equals(this.selectAllLabel)) {
+            return null;
+        }
+
+        return this.selectedFilter;
+    }
+
+    public void convertToTXT(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.TXT, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
+    }
+
+    public void convertToCSV(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.CSV, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
+    }
+
+    public void convertToJSON(ActionEvent actionEvent) {
+        // TODO
+    }
+
+    public void convertToXML(ActionEvent actionEvent) {
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.XML, selectedFilter);
+        OpenFileController.openFile(convertedFileRoute);
     }
 }

@@ -40,7 +40,7 @@
                             <children>
                                 <VBox alignment="CENTER" maxHeight="255.0" maxWidth="360.0" minHeight="220.0" minWidth="303.0" prefHeight="285.0" prefWidth="360.0">
                                     <children>
-                                        <Label text="Database" textFill="#306fc1">
+                                        <Label text="API" textFill="#306fc1">
                                             <font>
                                                 <Font name="System Bold" size="24.0" />
                                             </font>
@@ -96,7 +96,7 @@
                                 <Insets bottom="100.0" left="130.0" right="280.0" top="150.0" />
                             </GridPane.margin>
                             <children>
-                                <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="180.0" text="TXT" textFill="#306fc1">
+                                <Button onAction="#convertToTXT" mnemonicParsing="false" prefHeight="54.0" prefWidth="180.0" text="TXT" textFill="#306fc1">
                                     <GridPane.margin>
                                         <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                                     </GridPane.margin>
@@ -104,7 +104,7 @@
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Button>
-                                <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="241.0" text="CSV" textFill="#306fc1" GridPane.columnIndex="1">
+                                <Button onAction="#convertToCSV" mnemonicParsing="false" prefHeight="54.0" prefWidth="241.0" text="CSV" textFill="#306fc1" GridPane.columnIndex="1">
                                     <GridPane.margin>
                                         <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                                     </GridPane.margin>
@@ -112,7 +112,7 @@
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Button>
-                                <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="188.0" text="JSON" textFill="#306fc1" GridPane.rowIndex="1">
+                                <Button onAction="#convertToJSON" mnemonicParsing="false" prefHeight="54.0" prefWidth="188.0" text="JSON" textFill="#306fc1" GridPane.rowIndex="1">
                                     <GridPane.margin>
                                         <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
@@ -120,7 +120,7 @@
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Button>
-                                <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="318.0" text="XML" textFill="#306fc1" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Button onAction="#convertToXML" mnemonicParsing="false" prefHeight="54.0" prefWidth="318.0" text="XML" textFill="#306fc1" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <GridPane.margin>
                                         <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
                                     </GridPane.margin>
