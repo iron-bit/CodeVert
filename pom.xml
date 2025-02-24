@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.github.iron-bit</groupId>
             <artifactId>CodeVert_Api</artifactId>
-            <version>f43bd5e3a3</version>
+            <version>7b60b857fa</version>
         </dependency>
     </dependencies>
 

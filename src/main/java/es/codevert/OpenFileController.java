@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class OpenFileController {
 
-    private static final String APP = "subl";
+    private static final String APP = "notepad";
 
 
     public static void openFile(String filePath) {

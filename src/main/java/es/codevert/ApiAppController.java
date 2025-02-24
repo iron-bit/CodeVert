@@ -222,7 +222,10 @@ public class ApiAppController {
     }
 
     public void convertToJSON(ActionEvent actionEvent) {
-        // TODO
+        String selectedFilter = getSelectedFilter();
+        String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.JSON, selectedFilter);
+        System.out.println(convertedFileRoute);
+        OpenFileController.openFile(convertedFileRoute);
     }
 
     public void convertToXML(ActionEvent actionEvent) {
