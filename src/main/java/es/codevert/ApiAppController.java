@@ -42,7 +42,6 @@ public class ApiAppController {
     public Label labelDBName;
     public ComboBox<String> comboBox;
 
-
     private final FileConverter CONVERTER = new FileConverter();
     private String pathTempJSON = null;
     private File tempJSON = null;
@@ -51,15 +50,16 @@ public class ApiAppController {
     private String selectAllLabel = "Seleccionar Todo";
     private String selectedFilter = null;
 
-
+    // Handle API request button click
     public void requestApiButton(ActionEvent actionEvent) throws IOException {
         if (checkCredentials()) {
             handleContainerTransition();
 
-            //
+            // Prepare file for conversion
             this.tempJSON = new File(this.pathTempJSON);
             this.codevertFile = CONVERTER.prepareFile(this.tempJSON);
 
+            // Populate comboBox with filters
             this.comboBox.getItems().add(this.selectAllLabel);
             ArrayList<String> filters = this.codevertFile.getKeys();
             System.out.println(filters);
@@ -74,6 +74,7 @@ public class ApiAppController {
         }
     }
 
+    // Check if URL is valid and fetch JSON
     private boolean checkCredentials() throws IOException {
         String url = this.urlLabel.getText();
         this.pathTempJSON = fetchAndSaveJson(url);
@@ -81,6 +82,7 @@ public class ApiAppController {
         return !url.isBlank() && this.pathTempJSON != null;
     }
 
+    // Fetch JSON from URL and save to temporary file
     public static String fetchAndSaveJson(String urlString) {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -115,10 +117,10 @@ public class ApiAppController {
                 System.err.println("Error closing resources: " + e.getMessage());
             }
         }
-
         return null;
     }
 
+    // Handle transition animations
     private void handleContainerTransition() {
         Timeline delay;
 
@@ -132,12 +134,10 @@ public class ApiAppController {
         }));
 
         delay.play();
-
         moveDownGif(100, 15);
-
-
     }
 
+    // Vanish main layout with animation
     private void vanishMainLayout(int stepsOff, int durationOff) {
         Timeline vanishTimeline = new Timeline();
 
@@ -148,13 +148,13 @@ public class ApiAppController {
                         double newOpacity = this.elQueDesaparece.getOpacity() - 1.0 / stepsOff;
                         changePaneOpacity(this.elQueDesaparece, newOpacity);
                     }
-
             );
             vanishTimeline.getKeyFrames().add(keyFrame);
         }
         vanishTimeline.play();
     }
 
+    // Make converter appear with animation
     private void makesConverterAppear(int stepsOn, int durationOn) {
         Timeline appearTimeline = new Timeline();
 
@@ -171,10 +171,12 @@ public class ApiAppController {
         appearTimeline.play();
     }
 
+    // Change pane opacity
     private void changePaneOpacity(Pane pane, double value) {
         pane.setOpacity(value);
     }
 
+    // Move down GIF with animation
     private void moveDownGif(int stepsDown, int durationDown) {
         Timeline moveDownTimeline = new Timeline();
 
@@ -191,14 +193,17 @@ public class ApiAppController {
         moveDownTimeline.play();
     }
 
+    // Change border to error style
     public void changeErrorBorder() {
         this.urlLabel.getStyleClass().add("error");
     }
 
+    // Return border to original style
     public void returnOriginalBorder(KeyEvent keyEvent) {
         this.urlLabel.getStyleClass().remove("error");
     }
 
+    // Get selected filter from comboBox
     private String getSelectedFilter() {
         this.selectedFilter = this.comboBox.getValue();
 
@@ -209,18 +214,21 @@ public class ApiAppController {
         return this.selectedFilter;
     }
 
+    // Convert file to TXT
     public void convertToTXT(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.TXT, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert file to CSV
     public void convertToCSV(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.CSV, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert file to JSON
     public void convertToJSON(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.JSON, selectedFilter);
@@ -228,6 +236,7 @@ public class ApiAppController {
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert file to XML
     public void convertToXML(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(this.codevertFile, FileExtension.XML, selectedFilter);

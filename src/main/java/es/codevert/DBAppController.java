@@ -41,12 +41,12 @@ public class DBAppController {
     private String selectAllLabel = "Seleccionar Todo";
 
 
+    // Connect to the database when the button is clicked
     public void connectToDBButton(ActionEvent actionEvent) {
         try (Connection c = checkCredentials();){
             if (c != null) {
                 this.connection = c;
                 handleContainerTransition();
-                // TODO
             } else {
                 changeErrorBorder();
             }
@@ -55,6 +55,7 @@ public class DBAppController {
         }
     }
 
+    // Check the credentials and connect to the appropriate database
     private Connection checkCredentials() {
         String url = this.urlLabel.getText();
         if (url.isBlank()) return null;
@@ -69,6 +70,7 @@ public class DBAppController {
         return null;
     }
 
+    // Connect to MySQL database
     private Connection connectToMySQLDB(String url, String user, String password) {
         try {
             Connection c = DriverManager.getConnection(url, user, password);
@@ -81,6 +83,7 @@ public class DBAppController {
         return null;
     }
 
+    // Connect to SQLite database
     private Connection connectToSQLite(String url) {
         try {
             Connection c = DriverManager.getConnection(url);
@@ -93,6 +96,7 @@ public class DBAppController {
         return null;
     }
 
+    // Set the labels with database information
     private void setLabelTexts(Connection c) throws SQLException {
         labelDBName.setText(c.getCatalog());
         labelDBType.setText("Provider: " + c.getMetaData().getDatabaseProductName());
@@ -100,6 +104,7 @@ public class DBAppController {
         labelDBAlgo2.setText("Driver version: " + c.getMetaData().getDriverVersion());
     }
 
+    // Handle the transition of the container
     private void handleContainerTransition() {
         Timeline delay;
 
@@ -116,7 +121,7 @@ public class DBAppController {
 
         moveDownGif(100, 15);
 
-        //
+        // Load the database tables into the comboBox
         try {
             this.dbFile = PreFormatDB.getAllTablesAsCSVMap(this.connection);
             ArrayList<String> filtersList = new ArrayList<>(dbFile.keySet());
@@ -130,10 +135,9 @@ public class DBAppController {
         } catch (SQLException e) {
             System.out.println("Can't get tables from database: " + e.getMessage() );
         }
-
-
     }
 
+    // Vanish the main layout with animation
     private void vanishMainLayout(int stepsOff, int durationOff) {
         Timeline vanishTimeline = new Timeline();
 
@@ -151,6 +155,7 @@ public class DBAppController {
         vanishTimeline.play();
     }
 
+    // Make the converter appear with animation
     private void makesConverterAppear(int stepsOn, int durationOn) {
         Timeline appearTimeline = new Timeline();
 
@@ -167,10 +172,12 @@ public class DBAppController {
         appearTimeline.play();
     }
 
+    // Change the opacity of a pane
     private void changePaneOpacity(Pane pane, double value) {
         pane.setOpacity(value);
     }
 
+    // Move down the GIF with animation
     private void moveDownGif(int stepsDown, int durationDown) {
         Timeline moveDownTimeline = new Timeline();
 
@@ -187,25 +194,21 @@ public class DBAppController {
         moveDownTimeline.play();
     }
 
-    /*public void changeErrorBorder() {
-        this.urlLabel.setStyle("-fx-border-color: red");
-        this.userLabel.setStyle("-fx-border-color: red");
-        this.passwordLabel.setStyle("-fx-border-color: red");
-    }*/
-
+    // Change the border to indicate an error
     public void changeErrorBorder() {
         this.urlLabel.getStyleClass().add("error");
         this.userLabel.getStyleClass().add("error");
         this.passwordLabel.getStyleClass().add("error");
     }
 
+    // Return the border to the original state
     public void returnOriginalBorder(KeyEvent keyEvent) {
         this.urlLabel.getStyleClass().remove("error");
         this.userLabel.getStyleClass().remove("error");
         this.passwordLabel.getStyleClass().remove("error");
     }
 
-
+    // Get the selected filter from the comboBox
     private String getSelectedFilter() {
         this.selectedFilter = this.comboBox.getValue();
 
@@ -216,24 +219,28 @@ public class DBAppController {
         return this.selectedFilter;
     }
 
+    // Convert the database to TXT file
     public void convertToTXT(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.TXT, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert the database to CSV file
     public void convertToCSV(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.CSV, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert the database to JSON file
     public void convertToJSON(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.JSON, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert the database to XML file
     public void convertToXML(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convertMap(this.dbFile, FileExtension.XML, selectedFilter);

@@ -57,19 +57,5 @@ public class PreFormatDB {
         stmt.close();
         return tableContents;
     }
-
-    public static void main(String[] args) {
-        try {
-            // Step 6: Connect to SQLite Database
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:your_database.db");
-
-            // Step 7: Get all tables as CSV Map
-            Map<String, Map<String, String>> csvData = getAllTablesAsCSVMap(conn);
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
 

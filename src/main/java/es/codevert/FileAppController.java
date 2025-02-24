@@ -57,6 +57,7 @@ public class FileAppController {
     private String selectedFilter = null;
     private String selectAllLabel = "Seleccionar Todo";
 
+    // Initialize file chooser
     public void initFileChooser(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
@@ -65,6 +66,7 @@ public class FileAppController {
         processFile(selectedFile);
     }
 
+    // Handle drag over event
     @FXML
     public void handleDragOver(DragEvent dragEvent) {
         if (dragEvent.getDragboard().hasFiles()) {
@@ -72,6 +74,7 @@ public class FileAppController {
         }
     }
 
+    // Handle file drop event
     @FXML
     public void handleDrop(DragEvent dragEvent) {
         List<File> filesList = dragEvent.getDragboard().getFiles();
@@ -80,6 +83,7 @@ public class FileAppController {
         processFile(selectedFile);
     }
 
+    // Process the selected file
     public void processFile(File selectedFile) {
         try {
             this.codevertFile = this.CONVERTER.prepareFile(selectedFile);
@@ -95,11 +99,12 @@ public class FileAppController {
 
             changeCheckStatusGIF();
             handleContainerTransition(selectedFile);
-        } catch (Exception e) { // Should be CodeVertException
+        } catch (Exception e) {
             changeErrorStatusGIF();
         }
     }
 
+    // Handle container transition
     private void handleContainerTransition(File selectedFile) {
         Timeline delay;
 
@@ -136,11 +141,13 @@ public class FileAppController {
         moveDownGif(100, 15);
     }
 
+    // Generate random ETA
     private int generateRandomETA() {
         Random random = new Random();
         return random.nextInt(300);
     }
 
+    // Change GIF to error status
     private void changeErrorStatusGIF() {
         String errorGIF = this.IMAGES_DIR + "error.gif";
         String errorPNG = this.IMAGES_DIR + "error.png";
@@ -155,6 +162,7 @@ public class FileAppController {
         labelName.setText("File extension not compatible");
     }
 
+    // Change GIF to check status
     private void changeCheckStatusGIF() {
         String checkGIF = this.IMAGES_DIR + "check.gif";
         String checkPNG = this.IMAGES_DIR + "check.png";
@@ -169,6 +177,7 @@ public class FileAppController {
         labelName.setText(this.codevertFile.getFileName());
     }
 
+    // Disable the button for the current file extension
     private void disableExtensionButton() {
         ObservableList<Node> children = rightGrid.getChildren();
 
@@ -185,10 +194,12 @@ public class FileAppController {
         });
     }
 
+    // Get button text
     private String getButtonText(Button button) {
         return button.getText().toLowerCase();
     }
 
+    // Make converter appear with animation
     private void makesConverterAppear(int stepsOn, int durationOn) {
         Timeline appearTimeline = new Timeline();
 
@@ -205,6 +216,7 @@ public class FileAppController {
         appearTimeline.play();
     }
 
+    // Vanish main layout with animation
     private void vanishMainLayout(int stepsOff, int durationOff) {
         Timeline vanishTimeline = new Timeline();
 
@@ -222,10 +234,12 @@ public class FileAppController {
         vanishTimeline.play();
     }
 
+    // Change pane opacity
     private void changePaneOpacity(Pane pane, double value) {
         pane.setOpacity(value);
     }
 
+    // Move down GIF with animation
     private void moveDownGif(int stepsDown, int durationDown) {
         Timeline moveDownTimeline = new Timeline();
 
@@ -242,6 +256,7 @@ public class FileAppController {
         moveDownTimeline.play();
     }
 
+    // Wait for image change
     private void waitImage(Image image, int millis) {
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(millis),
@@ -250,6 +265,7 @@ public class FileAppController {
         timeline.play();
     }
 
+    // Get selected filter from comboBox
     private String getSelectedFilter() {
         this.selectedFilter = this.comboBox.getValue();
 
@@ -260,24 +276,28 @@ public class FileAppController {
         return this.selectedFilter;
     }
 
+    // Convert file to XML
     public void convertToXML(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.XML, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert file to JSON
     public void convertToJSON(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.JSON, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert file to CSV
     public void convertToCSV(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.CSV, selectedFilter);
         OpenFileController.openFile(convertedFileRoute);
     }
 
+    // Convert file to TXT
     public void convertToTXT(ActionEvent actionEvent) {
         String selectedFilter = getSelectedFilter();
         String convertedFileRoute = CONVERTER.convert(codevertFile, FileExtension.TXT, selectedFilter);
